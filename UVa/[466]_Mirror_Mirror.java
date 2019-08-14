@@ -3,14 +3,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
-//Type of problem : Array & Sum
-//Time Complexity : O(N)
+//Type of problem : Array & (Array Rotation & Flip)
+//Time Complexity : O(N^2)
 public class Main {
 	
-	public static boolean compare(char[][] a1, char[][] a2) {
+	public static boolean isSame(char[][] a1, char[][] a2) {
 		for(int i = 0; i < a1.length; i++) {
 			for(int j = 0; j < a1[0].length; j++) {
 				if(a1[i][j] != a2[i][j])
@@ -20,24 +19,13 @@ public class Main {
 		return true;
 	}
 	
-	public static char[][] rotate(char[][] arr, int degree){
+	public static char[][] rotate(char[][] arr){
 		char[][] transformed = new char[arr.length][arr.length];
-		if(degree == 90) {
 			for(int i = 0; i < arr.length; i++) {
 				for(int j = 0; j < arr.length; j++) {
 					transformed[i][j]=arr[arr.length - j - 1][i];
 				}
 			}
-		} else if(degree == 180) {
-			transformed = rotate(transformed, 90);
-			transformed = rotate(transformed, 90);
-		} else if(degree == 270) {
-			transformed = rotate(transformed, 90);
-			transformed = rotate(transformed, 90);
-			transformed = rotate(transformed, 90);
-		} else {
-			return null;
-		}
 		return transformed;
 	}
 	
@@ -58,7 +46,7 @@ public class Main {
 		
 		String line;
 		int t = 1;
-		while(((line = br.readLine()) != null) || (!line.equals(""))) {
+		while(((line = br.readLine()) != null)) {
 			int n = Integer.parseInt(line);
 			char[][] original = new char[n][n];
 			char[][] transformed = new char[n][n];
@@ -78,37 +66,67 @@ public class Main {
 				
 			}
 			
-			if(compare(transformed, vReflect(original))) {
-				bw.write(String.format("Pattern %d was reflected vertically.\n", t++));
-				bw.flush();
-			} else if(compare(transformed, rotate(original, 90))) {
-				bw.write(String.format("Pattern %d was rotated 90 degrees.\n", t++));
-				bw.flush();					
-			} else if(compare(transformed, rotate(original, 180))) {
-				bw.write(String.format("Pattern %d was rotated 180 degrees.\n", t++));
-				bw.flush();
-			} else if(compare(transformed, rotate(original, 270))) {
-				bw.write(String.format("Pattern %d was rotated 270 degrees.\n", t++));
-				bw.flush();
-			} else if(compare(transformed, vReflect(rotate(original, 90)))) {
-				bw.write(String.format("Pattern %d was reflected vertically and rotated 90 degrees.\n", t++));
-				bw.flush();
-			} else if(compare(transformed, vReflect(rotate(original, 180)))) {
-				bw.write(String.format("Pattern %d was reflected vertically and rotated 180 degrees.\n", t++));
-				bw.flush();
-			} else if(compare(transformed, vReflect(rotate(original, 270)))) {
-				bw.write(String.format("Pattern %d was reflected vertically and rotated 270 degrees.\n", t++));
-				bw.flush();
-			} else if(compare(transformed, original)) {
+			if(isSame(original, transformed)) {
 				bw.write(String.format("Pattern %d was preserved.\n", t++));
 				bw.flush();
-			} else {
-				bw.write(String.format("Pattern %d was improperly transformed.\n", t++));
-				bw.flush();
+				continue;
 			}
+			
+			char[][] result = rotate(original);
+			if(isSame(transformed, result)) {
+				bw.write(String.format("Pattern %d was rotated 90 degrees.\n", t++));
+				bw.flush();			
+				continue;
+			}
+			
+			result = rotate(result);
+			if(isSame(transformed, result)) {
+				bw.write(String.format("Pattern %d was rotated 180 degrees.\n", t++));
+				bw.flush();
+				continue;
+			}
+			
+			result = rotate(result);
+			if(isSame(transformed, result)) {
+				bw.write(String.format("Pattern %d was rotated 270 degrees.\n", t++));
+				bw.flush();
+				continue;
+			}
+			
+			result = vReflect(original);
+			if(isSame(transformed, result)) {
+				bw.write(String.format("Pattern %d was reflected vertically.\n", t++));
+				bw.flush();
+				continue;
+			}
+			
+			result = rotate(result);
+			if(isSame(transformed, result)) {
+				bw.write(String.format("Pattern %d was reflected vertically and rotated 90 degrees.\n", t++));
+				bw.flush();
+				continue;
+			}
+			
+			result = rotate(result);
+			if(isSame(transformed, result)) {
+				bw.write(String.format("Pattern %d was reflected vertically and rotated 180 degrees.\n", t++));
+				bw.flush();
+				continue;
+			}
+			
+			result = rotate(result);
+			if(isSame(transformed, result)) {
+				bw.write(String.format("Pattern %d was reflected vertically and rotated 270 degrees.\n", t++));
+				bw.flush();
+				continue;
+			}
+			
+			bw.write(String.format("Pattern %d was improperly transformed.\n", t++));
+			bw.flush();
 
 		}
 		bw.close();
+		br.close();
 	}
 }
 
