@@ -5,25 +5,25 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.StringTokenizer;
 
 public class Main {
 	
-	public static int shouldPush(Deque<Integer> stack, int num[], int i) { //push를 해야하나? (false라면 pop을 해야함)
-		if(stack.size() == 0) {
+	// Should I push?
+	// 리턴값이 1: push, 0: pop, -1: 불가능함
+	public static int shouldPush(Deque<Integer> stack, int num[], int i) {
+		if(stack.size() == 0) { //스택이 비었거나
 			return 1;
-		} else if(stack.peek() < num[i]) {
+		} else if(stack.peek() < num[i]) { //출력해야 하는 문자열이 나오기 전까지는 Push
 			return 1;
 		} else {
-			if(stack.peek() == num[i]) {
+			if(stack.peek() == num[i]) { //출력해야 하는 문자열에 도달한 경우 Pop
 				return 0;
-			} else {
+			} else { //도달할 수 없는 경우 불가능한 문자열임.
 				return -1;
 			}
 		}
 
 	}
-	
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -41,7 +41,6 @@ public class Main {
 		int s = 0; //출력한 것들(?)
 		int k = 1; //push한 숫자
 		while(true) {
-			
 			int result = shouldPush(stack, num, s);
 			if(result == 1) {
 				sb.append("+\n");
@@ -59,7 +58,6 @@ public class Main {
 				break;
 			}
 		}
-		
 
 		bw.write(sb.toString());
 		bw.flush();
