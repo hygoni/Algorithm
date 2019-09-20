@@ -1,43 +1,41 @@
-import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 	static boolean visited[];
-	static LinkedList<Integer> list;
-	static BufferedWriter bw;
-	public static void combination(int n, int m) throws IOException {
-		if(list.size() == m) {
-			Iterator<Integer> iter = list.iterator();
-			while(iter.hasNext()) {
-				bw.write(iter.next() + " ");
+	static StringBuilder sb;
+	static int arr[];
+	public static void combination(int n, int m, int size) {
+		if(size == m) {
+			for(int i = 0; i < m; i++){
+				sb.append(arr[i]).append(" ");
 			}
-			bw.write("\n");
+			sb.append("\n");
+			return;
 		}
+
 		for(int i = 1; i <= n; i++) {
 			if(visited[i] == false) {
 				visited[i] = true;
-				list.addLast(i);
-				combination(n, m);
-				list.removeLast();
+				arr[size] = i;
+				combination(n, m, size + 1);
 				visited[i] = false;
 			}
 		}
 	}
-	
-	public static void main(String[] args) throws IOException {
-		Scanner input = new Scanner(System.in);
-		bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		int n = input.nextInt();
-		int m = input.nextInt();
-		list = new LinkedList<Integer>();
+
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		br.close();
+		int n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
+		sb = new StringBuilder();
+		arr = new int[m];
 		visited = new boolean[n+1];
-		combination(n, m);
-		bw.flush();
-		input.close();
+		combination(n, m, 0);
+		System.out.println(sb);
 	}
 }
-
