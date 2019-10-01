@@ -2,14 +2,6 @@ import java.math.BigInteger;
 import java.util.Arrays;
 
 class Solution {
-	public static void main(String[] args) {
-		int times[] = {7, 10};
-		int n = 6;
-		Solution solver = new Solution();
-		long ans = solver.solution(n, times);
-		System.out.println(ans);
-	}
-	
 	public long solution(int n, int[] times) {
 		Arrays.sort(times);
 		BigInteger start = BigInteger.ZERO;
