@@ -7,19 +7,17 @@ public class Main {
 
 	public static int LCS(String word1, String word2) {
 		int d[][] = new int[word1.length() + 1][word2.length() + 1];
-		StringBuilder sb = new StringBuilder();
 		int max = 0;
 		for(int i = 0; i < word1.length(); i++) {
 			for(int j = 0; j < word2.length(); j++) {
 				if(word1.charAt(i) == word2.charAt(j)) {
 					d[i+1][j+1] = d[i][j] + 1;
-					max = Math.max(d[i+1][j+1], max);
+					max = Math.max(d[i+1][j+1], max); //LCS 길이 저장
 				} else {
 					d[i+1][j+1] = Math.max(d[i][j+1], d[i+1][j]);
 				}
 			}
 		}
-		
 		return max;
 	}
 	
