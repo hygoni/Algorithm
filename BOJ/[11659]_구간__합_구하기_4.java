@@ -7,6 +7,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		StringBuilder sb = new StringBuilder();
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
 		int arr[] = new int[N+1];
@@ -22,9 +23,10 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			int i_ = Integer.parseInt(st.nextToken());
 			int j = Integer.parseInt(st.nextToken());
-			System.out.println(sum[j] - sum[i_-1]);
+			sb.append(sum[j] - sum[i_-1]).append("\n");
 		}
 		
+        System.out.println(sb);
 		br.close();
 	}
 }
